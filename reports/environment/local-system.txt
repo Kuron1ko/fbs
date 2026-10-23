@@ -1,0 +1,18 @@
+2026-10-16T15:06:13+08:00
+Linux MSI 6.18.54.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+/home/kuroniko/fbs/.venv/bin/python
+/usr/local/cuda-13.2/bin/nvcc
+Python 3.10.14
+2.14.1+cu132 13.2 True
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Fri_May_08_10:53:34_AM_PDT_2026
+Cuda compilation tools, release 13.2, V13.2.86
+Build cuda_13.2.r13.2/compiler.37953736_0
+name, driver_version, memory.total [MiB]
+NVIDIA GeForce RTX 4090 Laptop GPU, 610.88, 16376 MiB
+gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+

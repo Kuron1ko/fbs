@@ -1,0 +1,215 @@
+{
+  "timestamp": "2026-10-18T14:18:58.503819+08:00",
+  "experiment": {
+    "id": "rng_resume_20261018_3d61e2",
+    "continuous": "checkpoints/rng_resume_20261018_3d61e2_continuous",
+    "split": "checkpoints/rng_resume_20261018_3d61e2_split",
+    "continuousLog": "runs/rng_resume_20261018_3d61e2_continuous.stdout.log",
+    "firstLog": "runs/rng_resume_20261018_3d61e2_first.stdout.log",
+    "resumedLog": "runs/rng_resume_20261018_3d61e2_resumed.stdout.log",
+    "summary": "reports/rng_resume_20261018_3d61e2.json",
+    "report": "reports/rng_resume_20261018_3d61e2.md",
+    "rtol": 1e-05,
+    "atol": 1e-06
+  },
+  "environment": {
+    "source_sha256": {
+      "train.py": "38c3b93d6b4afc2062d0d0fdb8ea976e7992ebd4798054dddc475f1dcaf3ea6c",
+      "src/model.py": "17645acf780766e1100cd2741282aaef72692f7d9fcdc82feaaf24cd5330fd98",
+      "src/evaluate.py": "b69b78ce63a458071f915ab0be7034c232611d697763e97861b63a38c739e125",
+      "src/random_state.py": "e051368705bf0246ac45ac64d4745280c3a06ee48877981cd7aecb2bcaf953d6",
+      "src/data.py": "9ca81878da3d1e64d8547742e55ca609c6efd51fa91f354ef2dec3b920dd67ab"
+    },
+    "versions": {
+      "torch": "2.14.1+cu132",
+      "deepspeed": "0.19.7",
+      "transformers": "5.20.0",
+      "numpy": "2.2.6"
+    },
+    "data_metadata_sha256": "79f869adc0f4865c21b7da121b70aa41e1d598bb3908178df46ac0405b3195fb"
+  },
+  "hardware": "NVIDIA GeForce RTX 4090 Laptop GPU, 610.88, 16376 MiB",
+  "seed": 42,
+  "model": "随机初始化 Qwen2 tiny: 2 layers, hidden_size 128, intermediate_size 512",
+  "seq_len": 128,
+  "micro_batch_size": 1,
+  "gradient_accumulation_steps": 2,
+  "offline_environment": {
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "commands": [
+    ".venv/bin/deepspeed --include localhost:0 train.py --seed 42 --checkpoint-dir checkpoints/rng_resume_20261018_3d61e2_continuous --max-updates 20",
+    ".venv/bin/deepspeed --include localhost:0 train.py --seed 42 --checkpoint-dir checkpoints/rng_resume_20261018_3d61e2_split --max-updates 10",
+    ".venv/bin/deepspeed --include localhost:0 train.py --seed 42 --checkpoint-dir checkpoints/rng_resume_20261018_3d61e2_split --resume-tag step10 --max-updates 20"
+  ],
+  "cpu_tests": {
+    "command": ".venv/bin/python -m pytest -q --tb=short",
+    "passed": 28
+  },
+  "sample_sequence_equal": true,
+  "sample_ids_continuous": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "sample_ids_resumed": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "continuous_metrics": {
+    "0": {
+      "nll": 11.93343,
+      "perplexity": 152272.938442,
+      "num_tokens": 1016
+    },
+    "5": {
+      "nll": 11.882517,
+      "perplexity": 144714.353036,
+      "num_tokens": 1016
+    },
+    "10": {
+      "nll": 11.829657,
+      "perplexity": 137263.379782,
+      "num_tokens": 1016
+    },
+    "15": {
+      "nll": 11.770899,
+      "perplexity": 129430.51016,
+      "num_tokens": 1016
+    },
+    "20": {
+      "nll": 11.706497,
+      "perplexity": 121357.65748,
+      "num_tokens": 1016
+    }
+  },
+  "first_metrics": {
+    "0": {
+      "nll": 11.93343,
+      "perplexity": 152272.938442,
+      "num_tokens": 1016
+    },
+    "5": {
+      "nll": 11.882517,
+      "perplexity": 144714.353036,
+      "num_tokens": 1016
+    },
+    "10": {
+      "nll": 11.829657,
+      "perplexity": 137263.379782,
+      "num_tokens": 1016
+    }
+  },
+  "resumed_metrics": {
+    "10": {
+      "nll": 11.829657,
+      "perplexity": 137263.379782,
+      "num_tokens": 1016
+    },
+    "15": {
+      "nll": 11.770899,
+      "perplexity": 129430.51016,
+      "num_tokens": 1016
+    },
+    "20": {
+      "nll": 11.706497,
+      "perplexity": 121357.65748,
+      "num_tokens": 1016
+    }
+  },
+  "logged_metrics_equal": true,
+  "checkpoint_comparisons": {
+    "0": {
+      "model_tensor_count": 27,
+      "state_dict_numel": 39388288,
+      "model_within_tolerance": true,
+      "model_bitwise_equal": true,
+      "model_max_abs_diff": 0.0,
+      "optimizer_bitwise_equal": true,
+      "rng_state_equal": true,
+      "global_steps": 0,
+      "epoch": 0,
+      "batches_in_epoch": 0
+    },
+    "10": {
+      "model_tensor_count": 27,
+      "state_dict_numel": 39388288,
+      "model_within_tolerance": true,
+      "model_bitwise_equal": true,
+      "model_max_abs_diff": 0.0,
+      "optimizer_bitwise_equal": true,
+      "rng_state_equal": true,
+      "global_steps": 10,
+      "epoch": 0,
+      "batches_in_epoch": 20
+    },
+    "20": {
+      "model_tensor_count": 27,
+      "state_dict_numel": 39388288,
+      "model_within_tolerance": true,
+      "model_bitwise_equal": true,
+      "model_max_abs_diff": 0.0,
+      "optimizer_bitwise_equal": true,
+      "rng_state_equal": true,
+      "global_steps": 20,
+      "epoch": 0,
+      "batches_in_epoch": 40
+    }
+  }
+}

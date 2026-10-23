@@ -1,0 +1,13 @@
+# 本地 .venv 的项目直接依赖版本，记录于 2026-10-23。
+# 本地参照：Python 3.10.14、PyTorch 2.14.1+cu132、CUDA toolkit 13.2。
+# 先安装适合云端驱动和 CUDA toolkit 的 PyTorch，再安装本文件。
+# 此文件不锁定全部间接依赖；云端验证通过后另存 pip freeze。
+deepspeed==0.19.7
+transformers==5.20.0
+datasets==5.1.0
+huggingface_hub==2.2.0
+numpy==2.2.6
+pandas==2.3.3
+matplotlib==3.10.9
+pytest==9.1.1
+ninja==1.13.2

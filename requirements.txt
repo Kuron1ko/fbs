@@ -1,0 +1,9 @@
+deepspeed
+transformers>=4.37
+datasets
+huggingface_hub
+numpy
+pandas
+matplotlib
+pytest
+ninja

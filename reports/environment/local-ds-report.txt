@@ -1,0 +1,53 @@
+--------------------------------------------------
+DeepSpeed C++/CUDA extension op report
+--------------------------------------------------
+NOTE: Ops not installed will be just-in-time (JIT) compiled at
+      runtime if needed. Op compatibility means that your system
+      meet the required dependencies to JIT install the op.
+--------------------------------------------------
+JIT compiled ops requires ninja
+ninja .................. [92m[OKAY][0m
+--------------------------------------------------
+op name ................ installed .. compatible
+--------------------------------------------------
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+async_io ............... [93m[NO][0m ....... [93m[NO][0m
+fused_adam ............. [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adam ............... [93m[NO][0m ....... [92m[OKAY][0m
+pin_memory ............. [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adagrad ............ [93m[NO][0m ....... [92m[OKAY][0m
+cpu_lion ............... [93m[NO][0m ....... [92m[OKAY][0m
+dc ..................... [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m Unable to locate CUTLASS. Install nvidia-cutlass, clone CUTLASS next to DeepSpeed, or set CUTLASS_PATH to the CUTLASS checkout.
+evoformer_attn ......... [93m[NO][0m ....... [93m[NO][0m
+fp_quantizer ........... [93m[NO][0m ....... [92m[OKAY][0m
+fused_lamb ............. [93m[NO][0m ....... [92m[OKAY][0m
+fused_lion ............. [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m gds requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m gds: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+gds .................... [93m[NO][0m ....... [93m[NO][0m
+transformer_inference .. [93m[NO][0m ....... [92m[OKAY][0m
+inference_core_ops ..... [93m[NO][0m ....... [92m[OKAY][0m
+cutlass_ops ............ [93m[NO][0m ....... [92m[OKAY][0m
+quantizer .............. [93m[NO][0m ....... [92m[OKAY][0m
+ragged_device_ops ...... [93m[NO][0m ....... [92m[OKAY][0m
+ragged_ops ............. [93m[NO][0m ....... [92m[OKAY][0m
+random_ltd ............. [93m[NO][0m ....... [92m[OKAY][0m
+spatial_inference ...... [93m[NO][0m ....... [92m[OKAY][0m
+transformer ............ [93m[NO][0m ....... [92m[OKAY][0m
+stochastic_transformer . [93m[NO][0m ....... [92m[OKAY][0m
+utils .................. [93m[NO][0m ....... [92m[OKAY][0m
+--------------------------------------------------
+DeepSpeed general environment info:
+torch install path ............... ['/home/kuroniko/fbs/.venv/lib/python3.10/site-packages/torch']
+torch version .................... 2.14.1+cu132
+deepspeed install path ........... ['/home/kuroniko/fbs/.venv/lib/python3.10/site-packages/deepspeed']
+deepspeed info ................... 0.19.7, unknown, unknown
+torch cuda version ............... 13.2
+torch hip version ................ None
+nvcc version ..................... 13.2
+deepspeed wheel compiled w. ...... torch 0.0, cuda 0.0
+shared memory (/dev/shm) size .... 15.60 GB
