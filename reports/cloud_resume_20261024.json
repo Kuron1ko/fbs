@@ -1,0 +1,1523 @@
+{
+  "passed": true,
+  "recorded_cloud_commit": "510aa18114463f57e52dc44b76221d1694c53bd2",
+  "checkpoint_step": 20,
+  "comparison": "exact tensor and recursive state equality, CPU",
+  "checks": {
+    "model": {
+      "equal": true,
+      "tensor_count": 27,
+      "array_count": 0,
+      "max_tensor_abs_diff": 0.0,
+      "differences": []
+    },
+    "scheduler": {
+      "equal": true,
+      "tensor_count": 0,
+      "array_count": 0,
+      "max_tensor_abs_diff": 0.0,
+      "differences": []
+    },
+    "rng_by_rank": {
+      "0": {
+        "equal": true,
+        "tensor_count": 3,
+        "array_count": 1,
+        "max_tensor_abs_diff": 0.0,
+        "differences": []
+      },
+      "1": {
+        "equal": true,
+        "tensor_count": 3,
+        "array_count": 1,
+        "max_tensor_abs_diff": 0.0,
+        "differences": []
+      }
+    },
+    "entire_model_checkpoint": {
+      "equal": true,
+      "tensor_count": 33,
+      "array_count": 2,
+      "max_tensor_abs_diff": 0.0,
+      "differences": []
+    },
+    "resume_config": {
+      "equal": true,
+      "tensor_count": 0,
+      "array_count": 0,
+      "max_tensor_abs_diff": 0.0,
+      "differences": []
+    },
+    "optimizer_by_rank": {
+      "0": {
+        "equal": true,
+        "tensor_count": 3,
+        "array_count": 0,
+        "max_tensor_abs_diff": 0.0,
+        "differences": []
+      },
+      "1": {
+        "equal": true,
+        "tensor_count": 3,
+        "array_count": 0,
+        "max_tensor_abs_diff": 0.0,
+        "differences": []
+      }
+    }
+  },
+  "progress": {
+    "global_steps": 20,
+    "global_samples": 80,
+    "epoch": 0,
+    "batches_in_epoch": 40,
+    "dp_world_size": 2,
+    "las_upd": 20,
+    "las_save": 20
+  },
+  "sample_checks": {
+    "0": {
+      "equal": true,
+      "micro_batches": 40,
+      "first_resumed_sample_ids": [
+        98
+      ]
+    },
+    "1": {
+      "equal": true,
+      "micro_batches": 40,
+      "first_resumed_sample_ids": [
+        103
+      ]
+    }
+  },
+  "cross_rank_sample_overlap": [],
+  "logs": {
+    "full": {
+      "samples": {
+        "0": [
+          {
+            "epoch": 0,
+            "sample_ids": [
+              18
+            ],
+            "update_step": 0,
+            "batches_in_epoch": 1
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              132
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 2
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              6
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 3
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              76
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 4
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              94
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 5
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              16
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 6
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              38
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 7
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              27
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 8
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              71
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 9
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              81
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 10
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              113
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 11
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              65
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 12
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              10
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 13
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              21
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 14
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              91
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 15
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              60
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 16
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              119
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 17
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              115
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 18
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              95
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 19
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              82
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 20
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              98
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 21
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              28
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 22
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              24
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 23
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              139
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 24
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              129
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 25
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              2
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 26
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              102
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 27
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              64
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 28
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              44
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 29
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              124
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 30
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              110
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 31
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              148
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 32
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              23
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 33
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              99
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 34
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              67
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 35
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              87
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 36
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              58
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 37
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              57
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 38
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              79
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 39
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              51
+            ],
+            "update_step": 20,
+            "batches_in_epoch": 40
+          }
+        ],
+        "1": [
+          {
+            "epoch": 0,
+            "sample_ids": [
+              13
+            ],
+            "update_step": 0,
+            "batches_in_epoch": 1
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              151
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 2
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              106
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 3
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              56
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 4
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              128
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 5
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              90
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 6
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              50
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 7
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              49
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 8
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              40
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 9
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              130
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 10
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              47
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 11
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              33
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 12
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              100
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 13
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              84
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 14
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              133
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 15
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              36
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 16
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              52
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 17
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              137
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 18
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              145
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 19
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              30
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 20
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              103
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 21
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              140
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 22
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              26
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 23
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              66
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 24
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              109
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 25
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              39
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 26
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              4
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 27
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              123
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 28
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              152
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 29
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              55
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 30
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              126
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 31
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              34
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 32
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              74
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 33
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              31
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 34
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              42
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 35
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              75
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 36
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              15
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 37
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              104
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 38
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              97
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 39
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              138
+            ],
+            "update_step": 20,
+            "batches_in_epoch": 40
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "step": 0,
+          "nll": "11.958870",
+          "perplexity": "156196.491304",
+          "tokens": 1016
+        },
+        {
+          "step": 5,
+          "nll": "11.939894",
+          "perplexity": "153260.401237",
+          "tokens": 1016
+        },
+        {
+          "step": 10,
+          "nll": "11.882143",
+          "perplexity": "144660.245841",
+          "tokens": 1016
+        },
+        {
+          "step": 15,
+          "nll": "11.846563",
+          "perplexity": "139603.684523",
+          "tokens": 1016
+        },
+        {
+          "step": 20,
+          "nll": "11.833185",
+          "perplexity": "137748.582191",
+          "tokens": 1016
+        }
+      ],
+      "learning_rates": [
+        {
+          "step": 5,
+          "lr_next": "9.9135338e-05"
+        },
+        {
+          "step": 10,
+          "lr_next": "7.2220754e-05"
+        },
+        {
+          "step": 15,
+          "lr_next": "2.999934e-05"
+        },
+        {
+          "step": 20,
+          "lr_next": "1e-05"
+        }
+      ],
+      "successful_processes": 2,
+      "has_error": false,
+      "restored_position": false
+    },
+    "part": {
+      "samples": {
+        "0": [
+          {
+            "epoch": 0,
+            "sample_ids": [
+              18
+            ],
+            "update_step": 0,
+            "batches_in_epoch": 1
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              132
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 2
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              6
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 3
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              76
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 4
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              94
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 5
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              16
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 6
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              38
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 7
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              27
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 8
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              71
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 9
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              81
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 10
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              113
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 11
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              65
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 12
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              10
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 13
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              21
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 14
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              91
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 15
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              60
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 16
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              119
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 17
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              115
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 18
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              95
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 19
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              82
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 20
+          }
+        ],
+        "1": [
+          {
+            "epoch": 0,
+            "sample_ids": [
+              13
+            ],
+            "update_step": 0,
+            "batches_in_epoch": 1
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              151
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 2
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              106
+            ],
+            "update_step": 1,
+            "batches_in_epoch": 3
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              56
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 4
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              128
+            ],
+            "update_step": 2,
+            "batches_in_epoch": 5
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              90
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 6
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              50
+            ],
+            "update_step": 3,
+            "batches_in_epoch": 7
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              49
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 8
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              40
+            ],
+            "update_step": 4,
+            "batches_in_epoch": 9
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              130
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 10
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              47
+            ],
+            "update_step": 5,
+            "batches_in_epoch": 11
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              33
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 12
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              100
+            ],
+            "update_step": 6,
+            "batches_in_epoch": 13
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              84
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 14
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              133
+            ],
+            "update_step": 7,
+            "batches_in_epoch": 15
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              36
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 16
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              52
+            ],
+            "update_step": 8,
+            "batches_in_epoch": 17
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              137
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 18
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              145
+            ],
+            "update_step": 9,
+            "batches_in_epoch": 19
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              30
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 20
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "step": 0,
+          "nll": "11.958870",
+          "perplexity": "156196.491304",
+          "tokens": 1016
+        },
+        {
+          "step": 5,
+          "nll": "11.939894",
+          "perplexity": "153260.401237",
+          "tokens": 1016
+        },
+        {
+          "step": 10,
+          "nll": "11.882143",
+          "perplexity": "144660.245841",
+          "tokens": 1016
+        }
+      ],
+      "learning_rates": [
+        {
+          "step": 5,
+          "lr_next": "9.9135338e-05"
+        },
+        {
+          "step": 10,
+          "lr_next": "7.2220754e-05"
+        }
+      ],
+      "successful_processes": 2,
+      "has_error": false,
+      "restored_position": false
+    },
+    "resume": {
+      "samples": {
+        "0": [
+          {
+            "epoch": 0,
+            "sample_ids": [
+              98
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 21
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              28
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 22
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              24
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 23
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              139
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 24
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              129
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 25
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              2
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 26
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              102
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 27
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              64
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 28
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              44
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 29
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              124
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 30
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              110
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 31
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              148
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 32
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              23
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 33
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              99
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 34
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              67
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 35
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              87
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 36
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              58
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 37
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              57
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 38
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              79
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 39
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              51
+            ],
+            "update_step": 20,
+            "batches_in_epoch": 40
+          }
+        ],
+        "1": [
+          {
+            "epoch": 0,
+            "sample_ids": [
+              103
+            ],
+            "update_step": 10,
+            "batches_in_epoch": 21
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              140
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 22
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              26
+            ],
+            "update_step": 11,
+            "batches_in_epoch": 23
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              66
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 24
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              109
+            ],
+            "update_step": 12,
+            "batches_in_epoch": 25
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              39
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 26
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              4
+            ],
+            "update_step": 13,
+            "batches_in_epoch": 27
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              123
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 28
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              152
+            ],
+            "update_step": 14,
+            "batches_in_epoch": 29
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              55
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 30
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              126
+            ],
+            "update_step": 15,
+            "batches_in_epoch": 31
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              34
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 32
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              74
+            ],
+            "update_step": 16,
+            "batches_in_epoch": 33
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              31
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 34
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              42
+            ],
+            "update_step": 17,
+            "batches_in_epoch": 35
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              75
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 36
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              15
+            ],
+            "update_step": 18,
+            "batches_in_epoch": 37
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              104
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 38
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              97
+            ],
+            "update_step": 19,
+            "batches_in_epoch": 39
+          },
+          {
+            "epoch": 0,
+            "sample_ids": [
+              138
+            ],
+            "update_step": 20,
+            "batches_in_epoch": 40
+          }
+        ]
+      },
+      "metrics": [
+        {
+          "step": 10,
+          "nll": "11.882143",
+          "perplexity": "144660.245841",
+          "tokens": 1016
+        },
+        {
+          "step": 15,
+          "nll": "11.846563",
+          "perplexity": "139603.684523",
+          "tokens": 1016
+        },
+        {
+          "step": 20,
+          "nll": "11.833185",
+          "perplexity": "137748.582191",
+          "tokens": 1016
+        }
+      ],
+      "learning_rates": [
+        {
+          "step": 10,
+          "lr_next": "7.2220754e-05"
+        },
+        {
+          "step": 15,
+          "lr_next": "2.999934e-05"
+        },
+        {
+          "step": 20,
+          "lr_next": "1e-05"
+        }
+      ],
+      "successful_processes": 2,
+      "has_error": false,
+      "restored_position": true
+    }
+  }
+}

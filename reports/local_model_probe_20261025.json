@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-25",
+  "model_id": "Qwen/Qwen2.5-1.5B",
+  "model_revision": "8faed761d45a263340a0528343f099c05c9a4323",
+  "initialization": "random; torch seed 42",
+  "local_model": {
+    "num_hidden_layers": 4,
+    "hidden_size": 1536,
+    "intermediate_size": 8960,
+    "num_attention_heads": 12,
+    "num_key_value_heads": 2,
+    "head_dim": 128,
+    "vocab_size": 151936,
+    "tie_word_embeddings": true,
+    "use_cache": false,
+    "parameters": 420566528
+  },
+  "full_model_parameters": 1543714304,
+  "hardware": "NVIDIA GeForce RTX 4090 Laptop GPU; 16376 MiB",
+  "versions": {
+    "torch": "2.14.1+cu132",
+    "transformers": "5.20.0",
+    "deepspeed": "0.19.7",
+    "triton": "3.8.0"
+  },
+  "deepspeed_config": {
+    "train_batch_size": 8,
+    "train_micro_batch_size_per_gpu": 1,
+    "gradient_clipping": 1.0,
+    "optimizer": {
+      "type": "AdamW",
+      "params": {
+        "lr": 0.0001
+      }
+    },
+    "bf16": {
+      "enabled": true
+    },
+    "zero_optimization": {
+      "stage": 2,
+      "overlap_comm": true
+    },
+    "scheduler": {
+      "type": "WarmupCosineLR",
+      "params": {
+        "total_num_steps": 1500,
+        "warmup_num_steps": 4,
+        "warmup_type": "linear",
+        "warmup_min_ratio": 0.0,
+        "cos_min_ratio": 0.1
+      }
+    }
+  },
+  "recommended_micro_batch": 2,
+  "recommended_global_batch": 8,
+  "recommended_accumulation_single_gpu": 4,
+  "measurements": [
+    {
+      "layers": 4,
+      "parameters": 420566528,
+      "seq_len": 512,
+      "micro_batch": 1,
+      "global_batch": 8,
+      "accumulation": 8,
+      "attention": "sdpa",
+      "seconds": 14.846606470000552,
+      "records": [
+        {
+          "update": 1,
+          "loss": 12.251692771911621,
+          "allocated_gib": 5.644332408905029,
+          "reserved_gib": 11.763671875,
+          "peak_allocated_gib": 7.211065292358398,
+          "peak_reserved_gib": 11.763671875
+        },
+        {
+          "update": 2,
+          "loss": 12.241683959960938,
+          "allocated_gib": 5.644332408905029,
+          "reserved_gib": 13.50390625,
+          "peak_allocated_gib": 9.596449375152588,
+          "peak_reserved_gib": 13.50390625
+        },
+        {
+          "update": 3,
+          "loss": 12.322575569152832,
+          "allocated_gib": 5.644332408905029,
+          "reserved_gib": 13.50390625,
+          "peak_allocated_gib": 9.596449375152588,
+          "peak_reserved_gib": 13.50390625
+        }
+      ],
+      "scope": "3 updates; includes initialization and first optimizer update; no profiler/evaluation/save"
+    },
+    {
+      "layers": 4,
+      "parameters": 420566528,
+      "seq_len": 512,
+      "micro_batch": 2,
+      "global_batch": 8,
+      "accumulation": 4,
+      "attention": "sdpa",
+      "seconds": 8.458179637000285,
+      "records": [
+        {
+          "update": 1,
+          "loss": 12.261815071105957,
+          "allocated_gib": 5.789229869842529,
+          "reserved_gib": 11.763671875,
+          "peak_allocated_gib": 7.355962753295898,
+          "peak_reserved_gib": 11.763671875
+        },
+        {
+          "update": 2,
+          "loss": 12.184051513671875,
+          "allocated_gib": 5.789229869842529,
+          "reserved_gib": 13.50390625,
+          "peak_allocated_gib": 9.740492343902588,
+          "peak_reserved_gib": 13.50390625
+        },
+        {
+          "update": 3,
+          "loss": 12.282753944396973,
+          "allocated_gib": 5.789229869842529,
+          "reserved_gib": 13.50390625,
+          "peak_allocated_gib": 9.740492343902588,
+          "peak_reserved_gib": 13.50390625
+        }
+      ],
+      "scope": "3 updates; includes initialization and first optimizer update; no profiler/evaluation/save"
+    },
+    {
+      "layers": 4,
+      "parameters": 420566528,
+      "seq_len": 512,
+      "micro_batch": 4,
+      "global_batch": 8,
+      "accumulation": 2,
+      "attention": "sdpa",
+      "seconds": 1.7766000060000806,
+      "records": [
+        {
+          "update": 1,
+          "loss": 12.253500938415527,
+          "allocated_gib": 6.079024791717529,
+          "reserved_gib": 13.8828125,
+          "peak_allocated_gib": 8.022105693817139,
+          "peak_reserved_gib": 13.8828125
+        },
+        {
+          "update": 2,
+          "loss": 12.186836242675781,
+          "allocated_gib": 6.079024791717529,
+          "reserved_gib": 15.623046875,
+          "peak_allocated_gib": 11.155082702636719,
+          "peak_reserved_gib": 15.623046875
+        },
+        {
+          "update": 3,
+          "loss": 12.288182258605957,
+          "allocated_gib": 6.079024791717529,
+          "reserved_gib": 15.623046875,
+          "peak_allocated_gib": 11.155082702636719,
+          "peak_reserved_gib": 15.623046875
+        }
+      ],
+      "scope": "3 updates; includes initialization and first optimizer update; no profiler/evaluation/save"
+    }
+  ],
+  "limits": [
+    "Three parameter updates per fresh process only.",
+    "No profiler, evaluation, or checkpoint-save memory measurement.",
+    "Not a throughput benchmark: no stable warmup, wall time includes startup training work.",
+    "No guarantee of long-run or cross-hardware memory/performance behavior.",
+    "Production model builder and training configuration have not been changed by these probes."
+  ]
+}

@@ -1,0 +1,39 @@
+# 云端双卡 Profiler 采样配置；使用时复制到 configs/train.toml。
+# 启动：.venv/bin/deepspeed --include localhost:0,1 train_pro.py
+# 配套 configs/deepspeed.json：全局 batch=8、每卡 micro-batch=2，双卡累积2次。
+# JSON 的调度器 total_num_steps 保持1500，短时采样仅提前停止训练。
+# 当前入口仍构建4层随机模型；28层预训练模型需要先接入完整模型加载路径。
+
+[model]
+id = "Qwen/Qwen2.5-1.5B"
+revision = "8faed761d45a263340a0528343f099c05c9a4323"
+fused_loss = true             # 基线对照改为 false，并使用新的 checkpoint 目录
+chunk_mem_const = 32
+
+[data]
+id = "Salesforce/wikitext"
+config = "wikitext-103-raw-v1"
+revision = "b08601e04326c79dfdd32d625aee71d232d685c3"
+dir = "data/wikitext-103"     # 云端需准备同一份预处理数据
+seq_len = 512
+
+[train]
+seed = 42
+max_updates = 210            # (400 + 4 + 16) / 2 = 210次参数更新
+log_interval = 10
+evaluate_interval = 250      # 本次短运行只做训练前的初始评估
+save_interval = 500          # 本次短运行只保存 step0
+
+[checkpoint]
+dir = "checkpoints/cloud_profile_fused_mem32"
+resume_tag = ""              # 从头运行；重复实验或切换模型时更换目录
+
+[profiler]
+enabled = true
+dir = "runs/profiler"        # 自动为每次运行、每个 rank 创建独立子目录
+# 单位均为 micro-step；以下换算仅适用于上述双卡 batch 设置。
+wait = 400                  # 正常训练200次更新后启动采集，供设备与训练预热
+warmup = 4                  # 丢弃Profiler刚启动的2次更新
+active = 16                 # 正式记录8次完整参数更新
+repeat = 1
+with_stack = true

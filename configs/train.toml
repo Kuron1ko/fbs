@@ -1,0 +1,33 @@
+[model]
+id = "Qwen/Qwen2.5-1.5B"
+revision = "8faed761d45a263340a0528343f099c05c9a4323"
+fused_loss = true
+chunk_mem_const = 32
+
+[data]
+id = "Salesforce/wikitext"
+config = "wikitext-103-raw-v1"
+revision = "b08601e04326c79dfdd32d625aee71d232d685c3"
+dir = "data/wikitext-103"  # 预处理后的数据目录
+seq_len = 512             # 每个样本的 token 数量
+
+[train]
+seed = 42
+max_updates = 40              # 第二阶段：10 步等待 + 1 步预热 + 4 步采样
+log_interval = 10             # 每多少个参数更新步打印一次训练进度，仅 rank 0 输出
+evaluate_interval = 250       # 每多少个更新步验证一次
+save_interval = 500           # 每多少个更新步保存一次
+
+[checkpoint]
+dir = "checkpoints/update2_mem32_3"
+resume_tag = ""              # 空字符串表示从头训练；例如 "step500" 表示恢复
+
+[profiler]
+enabled = true   # 第二阶段：短时 Profiler；完整基线使用 false
+dir = "runs/profiler"  # 每次运行自动创建独立子目录
+# 以下单位为 micro-step：单卡每 4 个 micro-step 完成 1 次参数更新。
+wait = 40        # 等待 10 个更新周期
+warmup = 20       # Profiler 预热 1 个更新周期
+active = 16      # 采集 4 个更新周期
+repeat = 1
+with_stack = true

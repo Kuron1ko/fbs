@@ -11,3 +11,4 @@ pandas==2.3.3
 matplotlib==3.10.9
 pytest==9.1.1
 ninja==1.13.2
+tomli==2.5.0; python_version < "3.11"

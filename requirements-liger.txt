@@ -1,0 +1,4 @@
+# 可选的 Linear + CrossEntropy 融合实验依赖；先准备项目基础环境。
+# 0.8.5 的 Transformers 适配要求 5.x；本地验证版本为 5.20.0。
+transformers>=5.0.0
+liger-kernel==0.8.5

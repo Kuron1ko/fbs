@@ -1,0 +1,9 @@
+开始/重启训练
+.venv/bin/deepspeed --include localhost:0 train.py
+
+查看显存图
+.venv/bin/python scripts/plot_memory.py runs/memory_20261025_225129_af5f29_rank0.jsonl
+
+
+查看tensorboard
+.venv/bin/tensorboard --logdir runs/profiler --host 127.0.0.1 --port 6006

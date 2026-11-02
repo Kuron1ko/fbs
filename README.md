@@ -13,33 +13,52 @@ python -m pytest -q
 
 测试使用合成数据，不下载模型或数据集，不需要 GPU。
 
+Linear + CrossEntropy 融合实验使用可选依赖 `requirements-liger.txt`。
+在已准备好 PyTorch、DeepSpeed 的环境中安装并运行 CUDA 验证：
+
+```bash
+.venv/bin/python -m pip install -r requirements-liger.txt
+.venv/bin/deepspeed --include localhost:0 scripts/smoke_liger.py
+```
+
+验证脚本使用小型随机 Qwen，检查 BF16 loss/梯度、共享词表权重、ZeRO-2 梯度累积和参数更新，不下载模型或写入 checkpoint。成功时输出 `LIGER_SMOKE_OK`。安装依赖不会自动启用正式训练中的融合；需要在模型构建阶段显式接入。
+
 ## 单卡 checkpoint 恢复测试
 
-先准备下文的 `data/smoke` 数据。在项目根目录执行，首次运行使用新的或空的 checkpoint 目录：
+训练脚本固定读取两份文件，不再从命令行读取训练参数：
 
-DeepSpeed 默认读取 [`configs/deepspeed.json`](configs/deepspeed.json)，当前设置为每卡每批 1 个样本、梯度累积 2 次、AdamW 学习率 `0.0001`。训练 DataLoader 的 batch size 也从该文件读取。可以用 `--ds-config 路径` 指定其他 JSON 文件；下面显式指定默认文件：
+| 文件 | 内容 |
+| --- | --- |
+| [`configs/train.toml`](configs/train.toml) | 模型、数据、序列长度、种子、本次停止步数、评估/保存间隔、checkpoint 目录及恢复 tag |
+| [`configs/deepspeed.json`](configs/deepspeed.json) | DeepSpeed 直接接受的 batch、ZeRO、精度、梯度裁剪、优化器和调度器参数 |
+
+JSON 字典原样传给 `deepspeed.initialize`；DataLoader 也使用其中的 `train_micro_batch_size_per_gpu`。当前 JSON 中 `train_batch_size=8`、`train_micro_batch_size_per_gpu=1`，由 DeepSpeed 根据实际 GPU 数推算梯度累积次数：单卡 8 次、双卡 4 次。当前 `max_updates` 和调度器 `total_num_steps` 都为 1500；模型仍是随机小模型，验证集仍只取前 8 个样本，正式训练还需后续接入。
+
+做短恢复测试前，先准备下文的 `data/smoke` 数据。按以下设置修改配置，使用新的或空的 checkpoint 目录：
+
+| 文件位置 | 设置 |
+| --- | --- |
+| TOML `[data]` | `dir = "data/smoke"`、`seq_len = 128` |
+| TOML `[train]` | `seed = 42`、`max_updates = 10`、`evaluate_interval = 5`、`save_interval = 10` |
+| TOML `[checkpoint]` | `dir = "checkpoints/resume_test01"`、`resume_tag = ""` |
+| JSON 顶层 | `train_batch_size = 2`、`train_micro_batch_size_per_gpu = 1`，省略 `gradient_accumulation_steps` |
+| JSON `scheduler.params` | `total_num_steps = 20`、`warmup_num_steps = 4` |
+
+在项目根目录执行：
 
 ```bash
-.venv/bin/deepspeed --include localhost:0 train.py \
-  --ds-config configs/deepspeed.json \
-  --seed 42 --checkpoint-dir checkpoints/resume_test01 --max-updates 10
+.venv/bin/deepspeed --include localhost:0 train.py
 ```
 
-程序完成 10 个参数更新步后正常退出，保存 `step0`、`step10`。重新启动，明确加载 `step10`，累计训练到 20 步：
+程序完成 10 个参数更新步后退出，保存 `step0`、`step10`。然后只把 TOML 的 `max_updates` 改为 `20`、`resume_tag` 改为 `"step10"`，再次执行同一条命令。双卡启动命令为 `.venv/bin/deepspeed --include localhost:0,1 train.py`；`--include` 属于 DeepSpeed 启动器，设备编号通过环境变量交给引擎。
 
-```bash
-.venv/bin/deepspeed --include localhost:0 train.py \
-  --ds-config configs/deepspeed.json \
-  --seed 42 --checkpoint-dir checkpoints/resume_test01 --resume-tag step10 --max-updates 20
-```
+`max_updates` 是本次运行停止的累计更新步数，包含恢复前进度。调度器的 `total_num_steps` 是完整学习率计划，两次运行都保持 20。`resume_tag = ""` 表示从头训练，指定 tag 时只加载该 checkpoint，不依赖 `latest`；从头训练会拒绝覆盖非空目录。
 
-`--max-updates` 表示包含恢复前进度的累计目标。`--resume-tag` 不传时从头训练，传入时只加载指定 checkpoint，不依赖 `latest`；不要通过删除 checkpoint 来控制恢复位置。从头训练会拒绝覆盖非空目录。
+训练数据使用 `DistributedSampler` 按 rank 分片，并按种子和 epoch 打乱。上述单卡短测累积 2 次，第 10 步结束时消费 20 个 micro-batch，第 20 步时为 40。checkpoint 保存 `epoch` 和 `batches_in_epoch`，恢复时重建 sampler 和数据迭代器，再跳过已消费 batch。恢复到已达到的目标步数时，只评估，不再训练。
 
-训练数据使用 `DistributedSampler` 按 rank 分片，并按种子和 epoch 打乱。默认配置为 `batch_size=1`、`gradient_accumulation_steps=2`，`num_workers=0`。checkpoint 的 `client_state` 保存 `epoch` 和当前 epoch 已消费的 `batches_in_epoch`；恢复时先调用 `sampler.set_epoch(epoch)` 重建顺序，再跳过这些 batch。当前 smoke 数据单卡第 10 步恢复时应记录 `epoch=0 batches_in_epoch=20`，下一批样本 ID 应与连续训练的对应位置一致；第 20 步结束时计数为 40。恢复到已达到的目标步数时，只评估，不再训练。
+每个 `step*` 目录还保存 `resume_config.json`，由 [`src/checkpoint.py`](src/checkpoint.py) 管理。恢复前核对种子、world size、模型、数据 SHA256、序列长度、sampler、DataLoader 和完整 DeepSpeed 配置；不一致时在加载权重前报错。本次停止步数和 checkpoint 目录可以改变，DeepSpeed 配置内容必须一致。数据来源还会与 `metadata.json` 中的模型/tokenizer 和数据集 ID、revision 对照，读取 token 文件时核验 SHA256。
 
-每个 `step*` 目录还保存 `resume_config.json`，由 [`src/checkpoint.py`](src/checkpoint.py) 管理。恢复前先校验种子、world size、模型 ID/revision 和实际模型配置、训练及验证数据 SHA256、序列长度、采样方式、DataLoader 参数和完整 DeepSpeed 配置；不一致时报告具体字段，并在 `engine.load_checkpoint()` 前停止。数据读取时仍会核对实际 token 文件的 SHA256。`--max-updates`、checkpoint 路径和配置文件路径可以改变，但 DeepSpeed 配置内容必须一致：例如分段训练 10→20 步时，调度器的 `total_num_steps` 两次都保持 20。复制 checkpoint 时应一并复制该 JSON；缺少清单的旧 checkpoint 会被拒绝，请使用新目录从头训练。
-
-`--seed` 默认值为 42，在创建模型前设置。checkpoint 还保存各 rank 的 Python、NumPy、PyTorch CPU 和 CUDA 随机状态列表；恢复时在重建数据迭代器、跳过数据和初始评估之后读取自己的状态。CPU 测试使用 `torch.save/load` 序列化测试 checkpoint，并比较连续训练与分段恢复的样本和随机数序列，包含 epoch 中间、跨 epoch 和 epoch 末尾的情形。
+TOML 的 `seed` 在创建模型前设置。checkpoint 保存各 rank 的 Python、NumPy、PyTorch CPU 和 CUDA 随机状态；恢复时在重建数据迭代器、跳过数据和初始评估之后读取自己的状态。CPU 测试通过临时 TOML 和 JSON 文件运行入口，覆盖配置来源、batch 和连续训练/恢复的样本及随机数序列。
 
 每次运行的评估结果、训练样本 ID 和进度会写入 `runs/train_*.log`。CPU 测试覆盖单卡打乱后的恢复和配置不一致时的拒绝行为；真实双卡恢复仍需验证。
 

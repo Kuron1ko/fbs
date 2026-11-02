@@ -4,26 +4,56 @@ from src.data import TokenBlockDataset
 from torch.utils.data import DataLoader
 import deepspeed
 
-def load_model(model_id, revision) :
+def load_model(model_id, revision, fused_loss=False) :
     model = AutoModelForCausalLM.from_pretrained(
         model_id,
         revision=revision,
+        dtype=torch.bfloat16,
     )
+    model.config.use_cache = False
+
+    if fused_loss:
+        from liger_kernel.transformers import apply_liger_kernel_to_qwen2
+
+        apply_liger_kernel_to_qwen2(
+            model=model,
+            fused_linear_cross_entropy=True,
+            cross_entropy=False,
+            rope=False,
+            rms_norm=False,
+            swiglu=False,
+        )
+        model.config.fused_loss = True
+
     return model
 
-def build_tiny_model(model_id, revision) :
+def build_tiny_model(model_id, revision, fused_loss=False) :
     config = AutoConfig.from_pretrained(
         model_id,
         revision = revision,
     )
-    config.num_hidden_layers = 2
-    config.hidden_size = 128
-    config.intermediate_size = 512
-    config.num_attention_heads = 4
+    config.num_hidden_layers = 4
+    config.hidden_size = 1536
+    config.intermediate_size = 8960
+    config.num_attention_heads = 12
     config.num_key_value_heads = 2
     config.use_cache = False
 
-    return AutoModelForCausalLM.from_config(config)
+    model = AutoModelForCausalLM.from_config(config)
+    if fused_loss:
+        from liger_kernel.transformers import apply_liger_kernel_to_qwen2
+
+        apply_liger_kernel_to_qwen2(
+            model=model,
+            fused_linear_cross_entropy=True,
+            cross_entropy=False,
+            rope=False,
+            rms_norm=False,
+            swiglu=False,
+        )
+        # 记录启用状态，供现有 checkpoint 配置一致性检查使用。
+        model.config.fused_loss = True
+    return model
 
 if __name__ == "__main__":
 

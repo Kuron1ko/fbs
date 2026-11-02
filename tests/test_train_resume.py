@@ -13,7 +13,18 @@ import numpy as np
 import pytest
 import torch
 
-from src.data import TokenBlockDataset
+from src.config import load_config
+
+
+def write_toml(path, config):
+    """写入实际 TOML，测试不绕过配置文件读取。"""
+    def value(item):
+        if isinstance(item, dict):
+            return "{ " + ", ".join(f"{json.dumps(key)} = {value(val)}" for key, val in item.items()) + " }"
+        return json.dumps(item)
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(f"{key} = {value(item)}" for key, item in config.items()) + "\n")
 
 
 def load_test_state(path):
@@ -31,6 +42,7 @@ class FakeEngine:
         self.random_draws = []
         self.lr = lr
         self.checkpoint_loads = 0
+        self.batch_sizes = []
 
     def train(self):
         pass
@@ -39,6 +51,7 @@ class FakeEngine:
         return [self.lr]
 
     def __call__(self, input_ids, **kwargs):
+        self.batch_sizes.append(input_ids.shape[0])
         self.samples.append(input_ids[0, 0].item() // 128)
         # 模拟训练中的随机运算，让 RNG 恢复错误能被测试发现。
         self.random_draws.append((random.random(), float(np.random.random()), torch.rand(()).item()))
@@ -89,7 +102,11 @@ def training_entry(monkeypatch, tmp_path):
 
     def initialize(**kwargs):
         config = kwargs["config"]
-        engine = FakeEngine(config["gradient_accumulation_steps"], config["optimizer"]["params"]["lr"])
+        accumulation = config.get("gradient_accumulation_steps")
+        if accumulation is None:
+            accumulation = config["train_batch_size"] // (config["train_micro_batch_size_per_gpu"] * world_size[0])
+        engine = FakeEngine(accumulation, config["optimizer"]["params"]["lr"])
+        engine.config = config
         engines.append(engine)
         return engine, None, None, None
 
@@ -114,10 +131,23 @@ def training_entry(monkeypatch, tmp_path):
     data_dir.mkdir(parents=True)
 
     def run(directory, *, samples=64, max_updates=20, resume_tag=None, seed=42,
-            ds_config=None, num_ranks=1, token_offset=0):
+            ds_config=None, num_ranks=1, token_offset=0, seq_len=128):
         world_size[0] = num_ranks
+        monkeypatch.setenv("WORLD_SIZE", str(num_ranks))
+        monkeypatch.setenv("LOCAL_RANK", "0")
+        monkeypatch.setattr(sys, "argv", ["train.py", "--local_rank=0"])
+        config = load_config(project_dir / "configs/train.toml")
+        config["profiler"]["enabled"] = False  # CPU 恢复测试不采集 GPU trace。
+        config["data"].update(dir=str(data_dir), seq_len=seq_len)
+        config["train"].update(seed=seed, max_updates=max_updates, evaluate_interval=5, save_interval=10)
+        config["checkpoint"] = {"dir": str(directory), "resume_tag": resume_tag or ""}
         # 使用实际的小型 token 文件和 SHA256，覆盖恢复检查中的数据身份校验。
-        metadata = {"schema_version": 1, "dtype": "uint32", "byte_order": "little", "splits": {}}
+        metadata = {
+            "schema_version": 1, "dtype": "uint32", "byte_order": "little", "splits": {},
+            "model_id": config["model"]["id"], "model_revision": config["model"]["revision"],
+            "dataset_id": config["data"]["id"], "dataset_config": config["data"]["config"],
+            "dataset_revision": config["data"]["revision"],
+        }
         for split, count in (("train", samples), ("validation", 8)):
             tokens = np.arange(count * 128, dtype="<u4")
             if split == "train":
@@ -129,15 +159,15 @@ def training_entry(monkeypatch, tmp_path):
                 "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             }
         (data_dir / "metadata.json").write_text(json.dumps(metadata), encoding="utf-8")
-        config_path = project_dir / "configs" / "deepspeed.json"
-        if ds_config is not None:
-            config_path = tmp_path / "custom_deepspeed.json"
-            config_path.write_text(json.dumps(ds_config), encoding="utf-8")
-        args = ["--checkpoint-dir", str(directory), "--max-updates", str(max_updates), "--local_rank=0",
-                "--seed", str(seed), "--ds-config", str(config_path)]
-        if resume_tag is not None:
-            args += ["--resume-tag", resume_tag]
-        main(args)
+        if ds_config is None:
+            ds_config = json.loads((project_dir / "configs/deepspeed.json").read_text())
+            ds_config.pop("train_batch_size", None)
+            ds_config["train_micro_batch_size_per_gpu"] = 1  # 固定样本位置断言的测试条件。
+            ds_config["gradient_accumulation_steps"] = 2
+            ds_config["scheduler"]["params"]["total_num_steps"] = 20
+        write_toml(tmp_path / "configs/train.toml", config)
+        (tmp_path / "configs/deepspeed.json").write_text(json.dumps(ds_config))
+        main()
         return engines[-1]
 
     return SimpleNamespace(run=run, evaluations=evaluations, engines=engines, model_config=model_config)
@@ -209,9 +239,9 @@ def test_new_run_preserves_existing_checkpoints_and_missing_tag_is_rejected(trai
     training_entry.run(directory, max_updates=10)
     path = directory / "step10" / "state.pt"
     before = path.read_bytes()
-    with pytest.raises(SystemExit):
+    with pytest.raises(ValueError, match="从头训练"):
         training_entry.run(directory)
-    with pytest.raises(SystemExit):
+    with pytest.raises(ValueError, match="找不到 checkpoint"):
         training_entry.run(directory, resume_tag="step20")
     assert path.read_bytes() == before
 
@@ -265,14 +295,11 @@ def test_resume_rejects_changed_model_configuration(training_entry, tmp_path):
     assert training_entry.engines[-1].checkpoint_loads == 0
 
 
-def test_resume_rejects_changed_sequence_length(training_entry, tmp_path, monkeypatch):
+def test_resume_rejects_changed_sequence_length(training_entry, tmp_path):
     directory = tmp_path / "checkpoints"
     training_entry.run(directory, max_updates=10)
-    original = TokenBlockDataset.from_prepared
-    monkeypatch.setattr(TokenBlockDataset, "from_prepared", classmethod(
-        lambda cls, data_dir, split, seq_len: original(data_dir, split, 64)))
     with pytest.raises(ValueError, match="seq_len"):
-        training_entry.run(directory, resume_tag="step10")
+        training_entry.run(directory, resume_tag="step10", seq_len=64)
     assert training_entry.engines[-1].checkpoint_loads == 0
 
 
@@ -293,10 +320,25 @@ def test_resume_allows_copied_checkpoint_and_equivalent_config_file(training_ent
     first = training_entry.run(original, max_updates=10)
     shutil.copytree(original, moved)
     saved = json.loads((moved / "step10" / "resume_config.json").read_text())
-    # JSON 字段顺序、配置文件路径和运行停止步数均可以改变。
+    # JSON 字段顺序、checkpoint 目录和本次停止步数均可以改变。
     config = dict(reversed(list(saved["deepspeed"].items())))
     resumed = training_entry.run(moved, max_updates=20, resume_tag="step10", ds_config=config)
     assert first.global_steps == 10
     assert resumed.global_steps == 20
     assert resumed.checkpoint_loads == 1
     assert "max_updates" not in saved
+
+
+def test_json_controls_deepspeed_and_loader_batch(training_entry, tmp_path):
+    project_dir = Path(__file__).resolve().parents[1]
+    config = json.loads((project_dir / "configs/deepspeed.json").read_text())
+    config["train_batch_size"] = 8
+    config["train_micro_batch_size_per_gpu"] = 2
+    config.pop("gradient_accumulation_steps", None)
+    config["zero_optimization"]["stage"] = 1
+    config["optimizer"]["params"]["lr"] = 0.0002
+    engine = training_entry.run(tmp_path / "json_source", max_updates=1, num_ranks=2, ds_config=config)
+    assert engine.config == config
+    assert engine.batch_sizes == [2, 2]
+    assert engine.global_steps == 1
+    assert engine.lr == 0.0002
